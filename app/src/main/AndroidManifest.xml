@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pokedex">
         <activity
+            android:name=".InfoPokemon"
+            android:exported="false" />
+        <activity
             android:name=".GeneralPokedex"
             android:exported="false" />
         <activity
