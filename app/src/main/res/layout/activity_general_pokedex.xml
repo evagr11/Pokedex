@@ -2,18 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/generalPokedex"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/fondo_home"
-    tools:context=".GeneralPokedex">
+    tools:context=".View.GeneralPokedex">
 
     <SearchView
         android:id="@+id/SearchBar"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_margin="16dp"
-        android:background="@mipmap/barraBuscar"
+        android:background="@mipmap/barra_buscar"
         android:iconifiedByDefault="false"
         android:queryHint="Busca tu Pokémon"
         app:layout_constraintBottom_toBottomOf="parent"
