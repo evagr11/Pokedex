@@ -1,4 +1,4 @@
 package com.example.pokedex.Controller;
 
-public class Mycontroller {
+public class PokedexController {
 }
