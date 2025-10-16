@@ -4,11 +4,11 @@ import java.util.List;
 
 public class Pokemon {
 
-    private int id;
-    private String name;
-    private int height;
-    private int weight;
-    private List<TypeSlot> types;
+    int id;
+    String name;
+    int height;
+    int weight;
+    List<TypeSlot> types;
 
     public class TypeSlot {
         private Type type;

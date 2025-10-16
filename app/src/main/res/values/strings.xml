@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Pokedex</string>
+    <string name="especificaciones">Especificaciones</string>
+    <string name="tama_o">Tamaño</string>
+    <string name="peso">Peso</string>
+    <string name="historia_de_vida">Historia de vida</string>
+    <string name="icono_peso">Icono peso</string>
+    <string name="textview">TextView</string>
+    <string name="fondoblanco">FondoBlanco</string>
+    <string name="todo">TODO</string>
+    <string name="nombre">Nombre</string>
+    <string name="back">TODO</string>
+    <string name="iconoTamaño">TODO</string>
+    <string name="iconoTipo">TODO</string>
+    <string name="iconoTipo2">TODO</string>
+    <string name="imagenPokemon">TODO</string>
+    <string name="accede_a_tu_pokedex">Accede a tu pokedex</string>
 </resources>

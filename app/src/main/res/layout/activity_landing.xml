@@ -14,7 +14,7 @@
         android:layout_height="65dp"
         android:backgroundTint="#b9e0cf"
         android:drawableLeft="@mipmap/iconopokedex4"
-        android:text="Accede a tu pokedex"
+        android:text="@string/accede_a_tu_pokedex"
         android:textColor="#337157"
         app:cornerRadius="30dp"
         app:iconSize="10dp"
