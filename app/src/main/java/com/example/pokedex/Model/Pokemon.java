@@ -1,24 +1,42 @@
 package com.example.pokedex.Model;
 
-import java.util.List;
-
 public class Pokemon {
-
-    int id;
     String name;
-    int height;
-    int weight;
-    List<TypeSlot> types;
+    int number;
+    String image;
 
-    public class TypeSlot {
-        private Type type;
-        public Type getType() { return type; }
+    public Pokemon(String name, String image, int number) {
+        this.name = name;
+        this.image = image;
+        this.number = number;
     }
 
-    public class Type {
-        private String name;
-        public String getName() { return name; }
+
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+}
+
     /*
     {
       "id": 6,
@@ -47,4 +65,3 @@ public class Pokemon {
     }
      */
 
-}
