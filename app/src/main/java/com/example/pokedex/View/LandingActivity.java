@@ -5,7 +5,9 @@ import android.content.Intent;
 
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -20,10 +22,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.pokedex.Controller.API;
+import com.example.pokedex.Model.Pokemon;
 import com.example.pokedex.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class LandingActivity extends AppCompatActivity {
 
@@ -38,45 +46,33 @@ public class LandingActivity extends AppCompatActivity {
             return insets;
         });
 
+        API.obtainAllPokemon(this);
+
         Button btnAcceder;
 
         btnAcceder = (Button)findViewById(R.id.btnAcceder);
 
-        btnAcceder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LandingActivity.this, GeneralPokedex.class));
-                APICall("Pikachu", LandingActivity.this);
+        btnAcceder.setOnClickListener(v -> {
+            ViewGroup main = (ViewGroup) btnAcceder.getParent();
+            main.removeView(btnAcceder);
 
-            }
-        });
-    }
-
-
-    void APICall(String input, Context ct){
-        RequestQueue queue = Volley.newRequestQueue(ct);
-        String url = "https://pokeapi.co/api/v2/pokemon/"+input.toLowerCase();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jObj = new JSONObject(response);
-                            jObj.getJSONArray("results").getJSONObject(0).get("name");
-                            System.out.println(jObj.getJSONArray("results").getJSONObject(0).get("name"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+            new Handler().postDelayed(new Runnable(){
+                @Override
+                public void run(){
+                    startActivity(new Intent(LandingActivity.this, GeneralPokedex.class));
+                    Collections.sort(API.getMyPokedex(), new Comparator<Pokemon>() {
+                        @Override
+                        public int compare(Pokemon pokemon, pokemon t1){
+                            return Integer.compare(pokemon.getNumber(), t1.getNumber());
                         }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
+                    });
+                    finish();
+                }
+            }, 6000);
         });
     }
+
+
 
 
 }
