@@ -1,12 +1,11 @@
 package com.example.pokedex.View;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -102,7 +101,6 @@ public class GeneralPokedex extends AppCompatActivity {
         loadBatch();
     }
 
-
     private void loadBatch() {
         if (currentBatch * batchSize >= filteredList.size()) return;
 
@@ -145,6 +143,17 @@ public class GeneralPokedex extends AppCompatActivity {
             imageButton.setBackground(null);
             imageButton.setAdjustViewBounds(true);
             imageButton.setScaleType(ImageButton.ScaleType.FIT_CENTER);
+
+            // 👉 Aquí se implementa la navegación a InfoPokemon
+            imageButton.setOnClickListener(view -> {
+                Intent intent = new Intent(GeneralPokedex.this, InfoPokemon.class);
+                intent.putExtra("nombre", p.getName());
+                intent.putExtra("imagen", p.getImage());
+                intent.putExtra("peso", String.valueOf(p.getPeso()));
+                intent.putExtra("tamaño", String.valueOf(p.getTamaño()));
+                intent.putExtra("historia", p.getHistoria());
+                startActivity(intent);
+            });
 
             imageContainer.addView(imageButton);
 

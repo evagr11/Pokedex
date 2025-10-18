@@ -69,11 +69,51 @@ public class API {
                             String name = jObj.getString("name");
                             int id = jObj.getInt("id");
                             String image = jObj.getJSONObject("sprites").getString("front_default");
+                            double weight = jObj.getDouble("weight") / 10.0;
+                            double height = jObj.getDouble("height") / 10.0;
 
-                            myPokedex.add(new Pokemon(name, image, id));
+                            // Segunda petición para obtener la historia
+                            String speciesUrl = "https://pokeapi.co/api/v2/pokemon-species/" + id;
+                            queue.add(new StringRequest(Request.Method.GET, speciesUrl,
+                                    speciesResponse -> {
+                                        try {
+                                            JSONObject speciesObj = new JSONObject(speciesResponse);
+                                            String historia = "Sin historia";
+
+                                            for (int i = 0; i < speciesObj.getJSONArray("flavor_text_entries").length(); i++) {
+                                                JSONObject entry = speciesObj.getJSONArray("flavor_text_entries").getJSONObject(i);
+                                                if (entry.getJSONObject("language").getString("name").equals("es")) {
+                                                    historia = entry.getString("flavor_text").replace("\n", " ").replace("\f", " ");
+                                                    break;
+                                                }
+                                            }
+
+                                            Pokemon pokemon = new Pokemon(name, image, id, weight, height, historia);
+
+                                            // Puedes extender el modelo para incluir peso, tamaño e historia si lo deseas
+                                            myPokedex.add(pokemon);
+
+                                            // Aquí podrías guardar peso, tamaño e historia en el objeto si lo adaptas
+                                            // pokemon.setPeso(weight);
+                                            // pokemon.setTamaño(height);
+                                            // pokemon.setHistoria(historia);
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        } finally {
+                                            if (completed.incrementAndGet() == total && onComplete != null) {
+                                                onComplete.run();
+                                            }
+                                        }
+                                    },
+                                    error -> {
+                                        if (completed.incrementAndGet() == total && onComplete != null) {
+                                            onComplete.run();
+                                        }
+                                    }));
+
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        } finally {
                             if (completed.incrementAndGet() == total && onComplete != null) {
                                 onComplete.run();
                             }
@@ -85,6 +125,7 @@ public class API {
                         }
                     }));
         }
+
 
         queue.start();
     }
