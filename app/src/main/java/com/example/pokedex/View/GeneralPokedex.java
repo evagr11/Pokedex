@@ -152,6 +152,8 @@ public class GeneralPokedex extends AppCompatActivity {
                 intent.putExtra("peso", String.valueOf(p.getPeso()));
                 intent.putExtra("tamaño", String.valueOf(p.getTamaño()));
                 intent.putExtra("historia", p.getHistoria());
+                intent.putExtra("tipos", p.getTipos().toArray(new String[0]));
+
                 startActivity(intent);
             });
 

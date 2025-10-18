@@ -72,6 +72,13 @@ public class API {
                             double weight = jObj.getDouble("weight") / 10.0;
                             double height = jObj.getDouble("height") / 10.0;
 
+                            // ✅ Extraer tipos
+                            ArrayList<String> tipos = new ArrayList<>();
+                            for (int i = 0; i < jObj.getJSONArray("types").length(); i++) {
+                                JSONObject tipoObj = jObj.getJSONArray("types").getJSONObject(i).getJSONObject("type");
+                                tipos.add(tipoObj.getString("name"));
+                            }
+
                             // Segunda petición para obtener la historia
                             String speciesUrl = "https://pokeapi.co/api/v2/pokemon-species/" + id;
                             queue.add(new StringRequest(Request.Method.GET, speciesUrl,
@@ -89,14 +96,9 @@ public class API {
                                             }
 
                                             Pokemon pokemon = new Pokemon(name, image, id, weight, height, historia);
+                                            pokemon.setTipos(tipos); // ✅ Asignar tipos al objeto
 
-                                            // Puedes extender el modelo para incluir peso, tamaño e historia si lo deseas
                                             myPokedex.add(pokemon);
-
-                                            // Aquí podrías guardar peso, tamaño e historia en el objeto si lo adaptas
-                                            // pokemon.setPeso(weight);
-                                            // pokemon.setTamaño(height);
-                                            // pokemon.setHistoria(historia);
 
                                         } catch (JSONException e) {
                                             e.printStackTrace();
@@ -126,9 +128,9 @@ public class API {
                     }));
         }
 
-
         queue.start();
     }
+
 
 
     public static ArrayList<Pokemon> getMyPokedex() {

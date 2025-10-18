@@ -2,12 +2,16 @@ package com.example.pokedex.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
+import com.example.pokedex.Controller.TipoManager;
+import com.example.pokedex.Model.TipoPokemon;
 import com.example.pokedex.R;
 
 public class InfoPokemon extends AppCompatActivity {
@@ -39,5 +43,31 @@ public class InfoPokemon extends AppCompatActivity {
         historiaView.setText(historia);
 
         Glide.with(this).load(imagenUrl).into(imagenView);
+
+        TipoManager.init(this); // Inicializa el mapa
+
+        String[] tipos = intent.getStringArrayExtra("tipos");
+        ImageView tipo1 = findViewById(R.id.tipo1);
+        ImageView tipo2 = findViewById(R.id.tipo2);
+        ConstraintLayout fondo = findViewById(R.id.infoPokemon);
+
+        if (tipos != null && tipos.length > 0) {
+            TipoPokemon tipoPrincipal = TipoManager.getTipo(tipos[0]);
+            if (tipoPrincipal != null) {
+                tipo1.setImageResource(tipoPrincipal.getImagenResId());
+                fondo.setBackgroundColor(tipoPrincipal.getColorResId());
+            }
+
+            if (tipos.length > 1) {
+                TipoPokemon tipoSecundario = TipoManager.getTipo(tipos[1]);
+                if (tipoSecundario != null) {
+                    tipo2.setImageResource(tipoSecundario.getImagenResId());
+                }
+            } else {
+                tipo2.setVisibility(View.GONE);
+            }
+        }
+
+
     }
 }
