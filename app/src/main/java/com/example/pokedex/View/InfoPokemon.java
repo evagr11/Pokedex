@@ -3,6 +3,7 @@ package com.example.pokedex.View;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -56,18 +57,31 @@ public class InfoPokemon extends AppCompatActivity {
             if (tipoPrincipal != null) {
                 tipo1.setImageResource(tipoPrincipal.getImagenResId());
                 fondo.setBackgroundColor(tipoPrincipal.getColorResId());
+            } else {
+                tipo1.setVisibility(View.GONE);
             }
 
             if (tipos.length > 1) {
                 TipoPokemon tipoSecundario = TipoManager.getTipo(tipos[1]);
                 if (tipoSecundario != null) {
                     tipo2.setImageResource(tipoSecundario.getImagenResId());
+                } else {
+                    tipo2.setVisibility(View.GONE);
                 }
             } else {
                 tipo2.setVisibility(View.GONE);
             }
+        } else {
+            tipo1.setVisibility(View.GONE);
+            tipo2.setVisibility(View.GONE);
         }
 
-
+        // 🔙 Botón para volver a la vista general
+        ImageButton backButton = findViewById(R.id.home);
+        backButton.setOnClickListener(v -> {
+            Intent volverIntent = new Intent(InfoPokemon.this, GeneralPokedex.class);
+            startActivity(volverIntent);
+            finish(); // Opcional: cierra esta pantalla
+        });
     }
 }
