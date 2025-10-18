@@ -1,13 +1,13 @@
 package com.example.pokedex.View;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.pokedex.R;
 
 public class InfoPokemon extends AppCompatActivity {
@@ -15,12 +15,26 @@ public class InfoPokemon extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_info_pokemon);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        Intent intent = getIntent();
+        String nombre = intent.getStringExtra("nombre");
+        String peso = intent.getStringExtra("peso") != null ? intent.getStringExtra("peso") : "Desconocido";
+        String tamaño = intent.getStringExtra("tamaño") != null ? intent.getStringExtra("tamaño") : "Desconocido";
+        String historia = intent.getStringExtra("historia") != null ? intent.getStringExtra("historia") : "Sin historia";
+        String imagenUrl = intent.getStringExtra("imagen");
+
+        TextView nombreView = findViewById(R.id.Nombre);
+        TextView pesoView = findViewById(R.id.peso);
+        TextView tamañoView = findViewById(R.id.tamaño);
+        TextView historiaView = findViewById(R.id.textView3);
+        ImageView imagenView = findViewById(R.id.Pokemon);
+
+        nombreView.setText(nombre);
+        pesoView.setText("Peso: " + peso);
+        tamañoView.setText("Tamaño: " + tamaño);
+        historiaView.setText(historia);
+
+        Glide.with(this).load(imagenUrl).into(imagenView);
     }
 }

@@ -4,11 +4,15 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.gridlayout.widget.GridLayout;
 import androidx.activity.EdgeToEdge;
@@ -23,90 +27,146 @@ import java.util.ArrayList;
 
 public class GeneralPokedex extends AppCompatActivity {
 
+    private int currentBatch = 0;
+    private final int batchSize = 50;
+    private boolean isLoading = false;
+
+    private GridLayout myGrid;
+    private ScrollView scrollView;
+    private SearchView searchBar;
+
+    private ArrayList<Pokemon> pokedex;
+    private ArrayList<Pokemon> filteredList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_general_pokedex);
 
-        GridLayout myGrid = findViewById(R.id.myGrid);
+        scrollView = findViewById(R.id.scrollView);
+        myGrid = findViewById(R.id.myGrid);
+        searchBar = findViewById(R.id.SearchBar);
 
-        ArrayList<Pokemon> pokedex = API.getMyPokedex();
-        int batchSize = 50;
-        int total = pokedex.size();
-
-        Handler handler = new Handler();
-
-        for (int start = 0; start < total; start += batchSize) {
-            int end = Math.min(start + batchSize, total);
-            int finalStart = start;
-            int finalEnd = end;
-
-            handler.postDelayed(() -> {
-                for (int i = finalStart; i < finalEnd; i++) {
-                    Pokemon p = pokedex.get(i);
-
-                    // Tarjeta contenedora
-                    LinearLayout card = new LinearLayout(this);
-                    card.setOrientation(LinearLayout.VERTICAL);
-                    card.setGravity(Gravity.CENTER);
-                    card.setPadding(24, 24, 24, 24);
-
-                    GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-                    params.width = 330; // pelín más pequeño
-                    params.setMargins(12, 12, 12, 12);
-                    card.setLayoutParams(params);
-
-                    GradientDrawable cardBackground = new GradientDrawable();
-                    cardBackground.setColor(Color.parseColor("#7FCFAC"));
-                    cardBackground.setCornerRadius(32);
-                    cardBackground.setStroke(3, Color.parseColor("#62B090"));
-                    card.setBackground(cardBackground);
-
-                    // Contenedor blanco para la imagen con bordes redondeados
-                    LinearLayout imageContainer = new LinearLayout(this);
-                    imageContainer.setPadding(12, 12, 12, 12);
-                    imageContainer.setGravity(Gravity.CENTER);
-
-                    GradientDrawable imageBackground = new GradientDrawable();
-                    imageBackground.setColor(Color.WHITE);
-                    imageBackground.setCornerRadius(24);
-                    imageContainer.setBackground(imageBackground);
-
-                    // Imagen del Pokémon
-                    ImageButton imageButton = new ImageButton(this);
-                    Glide.with(this)
-                            .load(p.getImage())
-                            .sizeMultiplier(0.072f) // pelín más pequeño
-                            .into(imageButton);
-                    imageButton.setBackground(null);
-                    imageButton.setAdjustViewBounds(true);
-                    imageButton.setScaleType(ImageButton.ScaleType.FIT_CENTER);
-
-                    imageContainer.addView(imageButton);
-
-                    // Número del Pokémon
-                    TextView numberText = new TextView(this);
-                    numberText.setText("No." + String.format("%03d", p.getNumber()));
-                    numberText.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
-                    numberText.setTextSize(14);
-                    numberText.setTypeface(Typeface.DEFAULT_BOLD);
-
-                    // Nombre del Pokémon
-                    TextView nameText = new TextView(this);
-                    nameText.setText(p.getName());
-                    nameText.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
-                    nameText.setTextSize(14);
-
-                    // Añadir elementos a la tarjeta
-                    card.addView(imageContainer);
-                    card.addView(numberText);
-                    card.addView(nameText);
-
-                    // Añadir tarjeta al GridLayout
-                    myGrid.addView(card);
-                }
-            }, (start / batchSize) * 500);
+        pokedex = API.getMyPokedex();
+        if (pokedex == null || pokedex.isEmpty()) {
+            Toast.makeText(this, "No se han cargado Pokémon", Toast.LENGTH_LONG).show();
+            finish();
+            return;
         }
+
+        filteredList = new ArrayList<>(pokedex);
+
+        loadBatch();
+
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
+            int scrollY = scrollView.getScrollY();
+            int height = scrollView.getHeight();
+            int contentHeight = scrollView.getChildAt(0).getHeight();
+
+            if (!isLoading && (scrollY + height >= contentHeight - 50)) {
+                isLoading = true;
+                Toast.makeText(this, "Cargando más Pokémon…", Toast.LENGTH_SHORT).show();
+                loadBatch();
+            }
+        });
+
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterPokemon(newText);
+                return true;
+            }
+        });
+    }
+
+    private void filterPokemon(String query) {
+        filteredList.clear();
+        currentBatch = 0;
+        myGrid.removeAllViews();
+
+        String lowerQuery = query.toLowerCase();
+
+        for (Pokemon p : pokedex) {
+            String numberStr = String.valueOf(p.getNumber());
+            if (p.getName().toLowerCase().contains(lowerQuery) || numberStr.contains(lowerQuery)) {
+                filteredList.add(p);
+            }
+        }
+
+        loadBatch();
+    }
+
+
+    private void loadBatch() {
+        if (currentBatch * batchSize >= filteredList.size()) return;
+
+        int start = currentBatch * batchSize;
+        int end = Math.min(start + batchSize, filteredList.size());
+
+        for (int i = start; i < end; i++) {
+            Pokemon p = filteredList.get(i);
+
+            LinearLayout card = new LinearLayout(this);
+            card.setOrientation(LinearLayout.VERTICAL);
+            card.setGravity(Gravity.CENTER);
+            card.setPadding(24, 24, 24, 24);
+
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+            params.width = 330;
+            params.setMargins(12, 12, 12, 12);
+            card.setLayoutParams(params);
+
+            GradientDrawable cardBackground = new GradientDrawable();
+            cardBackground.setColor(Color.parseColor("#7FCFAC"));
+            cardBackground.setCornerRadius(32);
+            cardBackground.setStroke(3, Color.parseColor("#62B090"));
+            card.setBackground(cardBackground);
+
+            LinearLayout imageContainer = new LinearLayout(this);
+            imageContainer.setPadding(12, 12, 12, 12);
+            imageContainer.setGravity(Gravity.CENTER);
+
+            GradientDrawable imageBackground = new GradientDrawable();
+            imageBackground.setColor(Color.WHITE);
+            imageBackground.setCornerRadius(24);
+            imageContainer.setBackground(imageBackground);
+
+            ImageButton imageButton = new ImageButton(this);
+            Glide.with(this)
+                    .load(p.getImage())
+                    .sizeMultiplier(0.072f)
+                    .into(imageButton);
+            imageButton.setBackground(null);
+            imageButton.setAdjustViewBounds(true);
+            imageButton.setScaleType(ImageButton.ScaleType.FIT_CENTER);
+
+            imageContainer.addView(imageButton);
+
+            TextView numberText = new TextView(this);
+            numberText.setText("No." + String.format("%03d", p.getNumber()));
+            numberText.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
+            numberText.setTextSize(14);
+            numberText.setTypeface(Typeface.DEFAULT_BOLD);
+
+            TextView nameText = new TextView(this);
+            nameText.setText(p.getName());
+            nameText.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
+            nameText.setTextSize(14);
+
+            card.addView(imageContainer);
+            card.addView(numberText);
+            card.addView(nameText);
+
+            myGrid.addView(card);
+        }
+
+        currentBatch++;
+        isLoading = false;
     }
 }
