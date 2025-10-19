@@ -11,26 +11,25 @@
         android:id="@+id/imageView5"
         android:layout_width="410dp"
         android:layout_height="675dp"
+        android:background="@mipmap/rectangulo"
         android:contentDescription="@string/fondoblanco"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.99"
-        app:srcCompat="@color/white" />
+        app:layout_constraintVertical_bias="0.99" />
 
     <ImageView
         android:id="@+id/Pokemon"
-        android:layout_width="160dp"
-        android:layout_height="193dp"
+        android:layout_width="259dp"
+        android:layout_height="319dp"
         android:contentDescription="@string/imagenPokemon"
         app:layout_constraintBottom_toBottomOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.138"
+        app:layout_constraintVertical_bias="0.096"
         app:srcCompat="@mipmap/_07__1_" />
 
     <TextView
@@ -69,7 +68,9 @@
         android:layout_height="31dp"
         android:text="@string/tama_o"
         android:textAlignment="viewStart"
+        android:textColor="@color/black"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.462"
@@ -83,7 +84,9 @@
         android:layout_height="31dp"
         android:text="@string/peso"
         android:textAlignment="viewStart"
+        android:textColor="@color/black"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.464"
@@ -134,21 +137,22 @@
 
     <ImageButton
         android:id="@+id/home"
-        android:layout_width="66dp"
-        android:layout_height="58dp"
+        android:layout_width="70dp"
+        android:layout_height="73dp"
+        android:background="@android:color/transparent"
         android:contentDescription="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.928"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
+        app:layout_constraintVertical_bias="0.952"
+        app:srcCompat="@mipmap/home2" />
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="31dp"
         android:contentDescription="@string/icono_peso"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -156,12 +160,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.538"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
+        app:srcCompat="@mipmap/peso" />
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="47dp"
+        android:layout_height="28dp"
         android:contentDescription="@string/iconoTamaño"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -169,7 +173,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.599"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
+        app:srcCompat="@mipmap/tamano" />
 
     <TextView
         android:id="@+id/historia"
@@ -177,6 +181,8 @@
         android:layout_height="96dp"
         android:text="@string/textview"
         android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
@@ -194,7 +200,7 @@
         app:layout_constraintHorizontal_bias="0.041"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.264"
+        app:layout_constraintVertical_bias="0.294"
         app:srcCompat="@android:drawable/ic_notification_overlay" />
 
     <ImageView
@@ -204,10 +210,10 @@
         android:contentDescription="@string/iconoTipo2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.132"
+        app:layout_constraintHorizontal_bias="0.129"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.264"
+        app:layout_constraintVertical_bias="0.293"
         app:srcCompat="@android:drawable/ic_notification_overlay" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
