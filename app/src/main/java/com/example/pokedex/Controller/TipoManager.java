@@ -6,8 +6,10 @@ import com.example.pokedex.R;
 import java.util.HashMap;
 
 public class TipoManager {
+    // mapa que asocia el nombre del tipo con su objeto TipoPokemon
     private static HashMap<String, TipoPokemon> tipos = new HashMap<>();
 
+    // metodo para inicializar el mapa con todos los tipos conocidos
     public static void init(Context context) {
         tipos.put("normal", new TipoPokemon("normal", R.mipmap.normal, context.getColor(R.color.normalColor)));
         tipos.put("fire", new TipoPokemon("fire", R.mipmap.fuego, context.getColor(R.color.fuegoColor)));

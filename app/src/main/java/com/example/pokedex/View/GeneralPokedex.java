@@ -34,7 +34,10 @@ public class GeneralPokedex extends AppCompatActivity {
     private ScrollView scrollView;
     private SearchView searchBar;
 
+    // lista completa de Pokémon obtenida desde la API
     private ArrayList<Pokemon> pokedex;
+
+    // lista filtrada según la búsqueda del usuario
     private ArrayList<Pokemon> filteredList;
 
     @Override
@@ -47,22 +50,21 @@ public class GeneralPokedex extends AppCompatActivity {
         myGrid = findViewById(R.id.myGrid);
         searchBar = findViewById(R.id.SearchBar);
 
+
         pokedex = API.getMyPokedex();
-        if (pokedex == null || pokedex.isEmpty()) {
-            Toast.makeText(this, "No se han cargado Pokémon", Toast.LENGTH_LONG).show();
-            finish();
-            return;
-        }
 
         filteredList = new ArrayList<>(pokedex);
 
+        // carga el primer lote de Pokémon en pantalla
         loadBatch();
 
+        // detecta cuando el usuario hace scroll hasta el final
         scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
             int scrollY = scrollView.getScrollY();
             int height = scrollView.getHeight();
             int contentHeight = scrollView.getChildAt(0).getHeight();
 
+            // si no está cargando y el usuario llegó al final, carga má
             if (!isLoading && (scrollY + height >= contentHeight - 50)) {
                 isLoading = true;
                 Toast.makeText(this, "Cargando más Pokémon…", Toast.LENGTH_SHORT).show();
@@ -70,6 +72,7 @@ public class GeneralPokedex extends AppCompatActivity {
             }
         });
 
+        // configura el buscador para filtrar por nombre o número
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -91,7 +94,8 @@ public class GeneralPokedex extends AppCompatActivity {
 
         String lowerQuery = query.toLowerCase();
 
-        for (Pokemon p : pokedex) {
+        for (int i = 0; i < pokedex.size(); i++) {
+            Pokemon p = pokedex.get(i);
             String numberStr = String.valueOf(p.getNumber());
             if (p.getName().toLowerCase().contains(lowerQuery) || numberStr.contains(lowerQuery)) {
                 filteredList.add(p);
@@ -144,7 +148,7 @@ public class GeneralPokedex extends AppCompatActivity {
             imageButton.setAdjustViewBounds(true);
             imageButton.setScaleType(ImageButton.ScaleType.FIT_CENTER);
 
-            // 👉 Aquí se implementa la navegación a InfoPokemon
+            // aquí se implementa la navegación a InfoPokemon
             imageButton.setOnClickListener(view -> {
                 Intent intent = new Intent(GeneralPokedex.this, InfoPokemon.class);
                 intent.putExtra("nombre", p.getName());

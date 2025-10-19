@@ -22,15 +22,15 @@ public class InfoPokemon extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_pokemon);
 
-        // Obtener datos del Intent
+        // recupera los datos enviados desde GeneralPokedex a través del Intent
         Intent intent = getIntent();
         String nombre = intent.getStringExtra("nombre");
-        String peso = intent.getStringExtra("peso") != null ? intent.getStringExtra("peso") : "Desconocido";
-        String tamaño = intent.getStringExtra("tamaño") != null ? intent.getStringExtra("tamaño") : "Desconocido";
-        String historia = intent.getStringExtra("historia") != null ? intent.getStringExtra("historia") : "Sin historia";
+        String peso = intent.getStringExtra("peso");
+        String tamaño = intent.getStringExtra("tamaño");
+        String historia = intent.getStringExtra("historia");
         String imagenUrl = intent.getStringExtra("imagen");
 
-        // Referencias a vistas del layout
+        // conecta las vistas del XML con el código
         TextView nombreView = findViewById(R.id.Nombre);
         TextView pesoView = findViewById(R.id.peso);
         TextView tamañoView = findViewById(R.id.tamaño);
@@ -39,28 +39,33 @@ public class InfoPokemon extends AppCompatActivity {
 
         // Asignar valores a las vistas
         nombreView.setText(nombre);
-        pesoView.setText("Peso: " + peso);
-        tamañoView.setText("Tamaño: " + tamaño);
+        pesoView.setText("Peso: " + peso + " kg");
+        tamañoView.setText("Tamaño: " + tamaño + " m");
         historiaView.setText(historia);
 
+        // carga la imagen del Pokémon desde la URL usando Glide
         Glide.with(this).load(imagenUrl).into(imagenView);
 
+        // inicializa el mapa de tipos (colores e íconos) desde TipoManager
         TipoManager.init(this); // Inicializa el mapa
 
+        // recupera los tipos del Pokémon enviados por el Intent
         String[] tipos = intent.getStringArrayExtra("tipos");
+
+        // conecta las vistas de los íconos de tipo y el fondo
         ImageView tipo1 = findViewById(R.id.tipo1);
         ImageView tipo2 = findViewById(R.id.tipo2);
         ConstraintLayout fondo = findViewById(R.id.infoPokemon);
 
+        // aplica los tipos visualmente si existen
         if (tipos != null && tipos.length > 0) {
             TipoPokemon tipoPrincipal = TipoManager.getTipo(tipos[0]);
             if (tipoPrincipal != null) {
                 tipo1.setImageResource(tipoPrincipal.getImagenResId());
                 fondo.setBackgroundColor(tipoPrincipal.getColorResId());
-            } else {
-                tipo1.setVisibility(View.GONE);
             }
 
+            // tipo secundario (si existe)
             if (tipos.length > 1) {
                 TipoPokemon tipoSecundario = TipoManager.getTipo(tipos[1]);
                 if (tipoSecundario != null) {
@@ -69,14 +74,11 @@ public class InfoPokemon extends AppCompatActivity {
                     tipo2.setVisibility(View.GONE);
                 }
             } else {
-                tipo2.setVisibility(View.GONE);
+                tipo2.setVisibility(View.GONE); // oculta si no hay segundo tipo
             }
-        } else {
-            tipo1.setVisibility(View.GONE);
-            tipo2.setVisibility(View.GONE);
         }
 
-        // 🔙 Botón para volver a la vista general
+        // botón para volver a la vista general
         ImageButton backButton = findViewById(R.id.home);
         backButton.setOnClickListener(v -> {
             Intent volverIntent = new Intent(InfoPokemon.this, GeneralPokedex.class);
