@@ -35,7 +35,7 @@ public class LandingActivity extends AppCompatActivity {
 
         btnAcceder.setOnClickListener(v -> {
             btnAcceder.setEnabled(false);
-            btnAcceder.setText("Cargando Pokémones...");
+            btnAcceder.setText("Accediendo...");
             // Llamo al metodo que espera a que los datos estén listos antes de avanzar
             esperarCargaYEntrar();
         });

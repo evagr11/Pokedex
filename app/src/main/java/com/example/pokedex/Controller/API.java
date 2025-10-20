@@ -82,7 +82,10 @@ public class API {
                             JSONObject jObj = new JSONObject(response);
                             String name = jObj.getString("name");
                             int id = jObj.getInt("id");
-                            String image = jObj.getJSONObject("sprites").getString("front_default");
+                            String image = jObj.getJSONObject("sprites")
+                                    .getJSONObject("other")
+                                    .getJSONObject("official-artwork")
+                                    .getString("front_default");
                             double weight = jObj.getDouble("weight") / 10.0;
                             double height = jObj.getDouble("height") / 10.0;
 
