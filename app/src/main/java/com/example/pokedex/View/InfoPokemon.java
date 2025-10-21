@@ -11,8 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
-import com.example.pokedex.Controller.TipoManager;
-import com.example.pokedex.Model.TipoPokemon;
+import com.example.pokedex.Model.TipoPokemonEnum;
 import com.example.pokedex.R;
 
 public class InfoPokemon extends AppCompatActivity {
@@ -22,68 +21,58 @@ public class InfoPokemon extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_pokemon);
 
-        // recupera los datos enviados desde GeneralPokedex a través del Intent
+        // Recupera los datos enviados desde GeneralPokedex a través del Intent
         Intent intent = getIntent();
         String nombre = intent.getStringExtra("nombre");
         String peso = intent.getStringExtra("peso");
         String tamaño = intent.getStringExtra("tamaño");
         String historia = intent.getStringExtra("historia");
         String imagenUrl = intent.getStringExtra("imagen");
+        String[] tipos = intent.getStringArrayExtra("tipos");
 
-        // conecta las vistas del XML con el código
+        // Conecta las vistas del XML con el código
         TextView nombreView = findViewById(R.id.Nombre);
         TextView pesoView = findViewById(R.id.peso);
         TextView tamañoView = findViewById(R.id.tamaño);
         TextView historiaView = findViewById(R.id.historia);
         ImageView imagenView = findViewById(R.id.Pokemon);
+        ImageView tipo1 = findViewById(R.id.tipo1);
+        ImageView tipo2 = findViewById(R.id.tipo2);
+        ConstraintLayout fondo = findViewById(R.id.infoPokemon);
 
         // Asignar valores a las vistas
         nombreView.setText(nombre);
         pesoView.setText("Peso: " + peso + " kg");
         tamañoView.setText("Tamaño: " + tamaño + " m");
         historiaView.setText(historia);
-
-        // carga la imagen del Pokémon desde la URL usando Glide
         Glide.with(this).load(imagenUrl).into(imagenView);
 
-        // inicializa el mapa de tipos (colores e íconos) desde TipoManager
-        TipoManager.init(this); // Inicializa el mapa
-
-        // recupera los tipos del Pokémon enviados por el Intent
-        String[] tipos = intent.getStringArrayExtra("tipos");
-
-        // conecta las vistas de los íconos de tipo y el fondo
-        ImageView tipo1 = findViewById(R.id.tipo1);
-        ImageView tipo2 = findViewById(R.id.tipo2);
-        ConstraintLayout fondo = findViewById(R.id.infoPokemon);
-
-        // aplica los tipos visualmente si existen
+        // Aplica los tipos visualmente si existen
         if (tipos != null && tipos.length > 0) {
-            TipoPokemon tipoPrincipal = TipoManager.getTipo(tipos[0]);
+            TipoPokemonEnum tipoPrincipal = TipoPokemonEnum.fromName(tipos[0]);
             if (tipoPrincipal != null) {
                 tipo1.setImageResource(tipoPrincipal.getImagenResId());
-                fondo.setBackgroundColor(tipoPrincipal.getColorResId());
+                fondo.setBackgroundColor(getColor(tipoPrincipal.getColorResId()));
             }
 
-            // tipo secundario (si existe)
             if (tipos.length > 1) {
-                TipoPokemon tipoSecundario = TipoManager.getTipo(tipos[1]);
+                TipoPokemonEnum tipoSecundario = TipoPokemonEnum.fromName(tipos[1]);
                 if (tipoSecundario != null) {
                     tipo2.setImageResource(tipoSecundario.getImagenResId());
                 } else {
                     tipo2.setVisibility(View.GONE);
                 }
             } else {
-                tipo2.setVisibility(View.GONE); // oculta si no hay segundo tipo
+                tipo2.setVisibility(View.GONE);
             }
         }
 
-        // botón para volver a la vista general
+        // Botón para volver a la vista general
         ImageButton backButton = findViewById(R.id.home);
         backButton.setOnClickListener(v -> {
             Intent volverIntent = new Intent(InfoPokemon.this, GeneralPokedex.class);
             startActivity(volverIntent);
-            finish(); // Opcional: cierra esta pantalla
+            finish();
         });
     }
 }

@@ -3,7 +3,9 @@ package com.example.pokedex.View;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,8 @@ import java.util.Comparator;
 public class LandingActivity extends AppCompatActivity {
 
     private boolean datosCargados = false;
+    private ProgressBar progressBar;
+    private Button btnAcceder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,18 +29,26 @@ public class LandingActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_landing);
 
-        Button btnAcceder = findViewById(R.id.btnAcceder);
+        btnAcceder = findViewById(R.id.btnAcceder);
+        progressBar = findViewById(R.id.progressBar);
 
+        // Ocultar el botón y mostrar la barra de carga al iniciar
+        btnAcceder.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
+        // Iniciar descarga de datos
         API.obtainAllPokemon(this, () -> runOnUiThread(() -> {
             datosCargados = true;
-            // ordeno la lista de Pokémon por número (de menor a mayor)
             Collections.sort(API.getMyPokedex(), Comparator.comparingInt(Pokemon::getNumber));
+
+            // Ocultar la barra y mostrar el botón
+            progressBar.setVisibility(View.GONE);
+            btnAcceder.setVisibility(View.VISIBLE);
         }));
 
         btnAcceder.setOnClickListener(v -> {
             btnAcceder.setEnabled(false);
             btnAcceder.setText("Accediendo...");
-            // Llamo al metodo que espera a que los datos estén listos antes de avanzar
             esperarCargaYEntrar();
         });
     }
@@ -44,9 +56,8 @@ public class LandingActivity extends AppCompatActivity {
     private void esperarCargaYEntrar() {
         if (datosCargados) {
             startActivity(new Intent(this, GeneralPokedex.class));
-            finish(); //cierra la pantalla para que no se pueda volver atras
+            finish(); // Cierra esta pantalla para evitar volver atrás
         } else {
-            // crea un Handler para esperar
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
