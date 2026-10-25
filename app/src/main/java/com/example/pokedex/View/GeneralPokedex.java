@@ -81,6 +81,7 @@ public class GeneralPokedex extends AppCompatActivity {
 
         if (searchBar.getQuery().toString().isEmpty()) {
             filteredList.clear();
+            adapter.notifyDataSetChanged(); // avisa al adaptador de que la lista se ha vaciado antes de volver a llenarla
             currentBatch = 0;
             loadBatch();
         } else {
