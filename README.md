@@ -3,14 +3,21 @@
 </div>
 
 <div align="center">
+  <a href="https://github.com/evagr11/Pokedex/releases/latest" target="_blank"><img src="https://img.shields.io/badge/Descargar_APK-DC2626?style=for-the-badge&logo=android&logoColor=white" alt="Descargar APK"/></a>
   <a href="https://github.com/evagr11/Pokedex" target="_blank"><img src="https://img.shields.io/badge/Ver_Código-7F1D1D?style=for-the-badge&logo=github&logoColor=white" alt="Ver Código"/></a>
   <a href="https://evagr11.github.io/Curriculum/proyectos/pokedex.html" target="_blank"><img src="https://img.shields.io/badge/Ver_Web-DC2626?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Ver Web"/></a>
+  <a href="https://www.figma.com/design/og2JV2mn6bbvUCpM8qFwct/Pokedex" target="_blank"><img src="https://img.shields.io/badge/Figma-7F1D1D?style=for-the-badge&logo=figma&logoColor=white" alt="Figma"/></a>
+  <a href="https://evagr11.github.io/Curriculum/assets/pdf/Pokedex.pdf" target="_blank"><img src="https://img.shields.io/badge/Documentación-DC2626?style=for-the-badge&logo=latex&logoColor=white" alt="Documentación"/></a>
 </div>
 
 <br>
 
 <div align="center">
   <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com/?font=JetBrains+Mono&size=18&duration=3500&pause=800&color=DC2626&center=true&vCenter=true&width=600&lines=Aplicaci%C3%B3n+Android+nativa+con+Java%3B1028+Pok%C3%A9mon+desde+la+Pok%C3%A9API%3BRecyclerView+en+cuadr%C3%ADcula+y+Glide%3BB%C3%BAsqueda+por+nombre+o+n%C3%BAmero%3BArquitectura+MVC+simple" alt="Typing SVG" /></a>
+</div>
+
+<div align="center">
+  <img src=".github/readme/Mockup.jpg" alt="Mockup de la Pokédex: un móvil con la pantalla de inicio y tres móviles con el listado, la búsqueda y la ficha de Bulbasaur" width="100%"/>
 </div>
 
 # 🚀 Sobre el Proyecto
@@ -26,6 +33,13 @@ La interfaz está diseñada para ser intuitiva y visualmente atractiva, utilizan
 *   **ℹ️ Vista de Detalle:** Al seleccionar un Pokémon, se muestra una pantalla con su imagen, nombre, tipos, peso, altura y su descripción de la Pokédex en español.
 *   **🎨 Diseño Temático:** Los **18 tipos** tienen su icono y su color propios (definidos en `TipoPokemonEnum`), y el fondo de la pantalla de detalle toma el color del tipo principal.
 *   **⏳ Pantalla de Carga:** Una pantalla de bienvenida (`LandingActivity`) descarga todos los datos al abrir la app con **Volley** (la ficha de cada Pokémon y su especie) y no entra en la Pokédex hasta que termina, así la búsqueda funciona sobre la lista completa.
+
+### 📸 Galería
+
+| Inicio | Listado | Búsqueda | Ficha |
+| :----: | :-----: | :------: | :---: |
+| <img src=".github/readme/Inicio.png" alt="Pantalla de bienvenida con el Centro Pokémon y el botón Accede a tu Pokédex" width="180"/> | <img src=".github/readme/Listado.png" alt="Cuadrícula de 3 columnas con los primeros Pokémon" width="180"/> | <img src=".github/readme/Busqueda.png" alt="Búsqueda de bul con cinco resultados" width="180"/> | <img src=".github/readme/Ficha.png" alt="Ficha de Bulbasaur con tipos, peso, tamaño e historia" width="180"/> |
+| *Pantalla de bienvenida.* | *Cuadrícula con scroll infinito.* | *Filtra mientras escribes.* | *Ficha con el color del tipo.* |
 
 # 🧠 Contexto del Proyecto
 
@@ -78,6 +92,18 @@ Pokedex/app/src/main/java/com/example/pokedex/
 
 # 🚀 Cómo Utilizar el Proyecto
 
+### 📲 Instalar la APK
+
+La forma más rápida de probar la app es instalar la APK de la última versión, en [Releases](https://github.com/evagr11/Pokedex/releases/latest):
+
+1.  Descarga el archivo `.apk` desde el móvil.
+2.  Ábrelo y, si Android lo pide, permite **instalar aplicaciones de orígenes desconocidos**.
+3.  Pulsa **Instalar** y abre la **Pokédex**.
+
+> Necesita **Android 7.0 (API 24)** o superior y **conexión a internet**, porque los datos se descargan de la PokéAPI al abrir la app.
+
+### 🧑‍💻 Compilar desde el código
+
 Para ejecutar este proyecto, necesitarás **Android Studio**.
 
 1.  **Clona el repositorio:**
@@ -97,6 +123,13 @@ Para ejecutar este proyecto, necesitarás **Android Studio**.
 ¡La aplicación se compilará y se instalará en el dispositivo seleccionado!
 
 > ⏳ La primera pantalla tarda un poco: descarga los datos de los 1028 Pokémon antes de entrar. Hace falta conexión a internet.
+
+# 🎯 Mejoras futuras
+
+*   💾 Guardar los datos descargados en el móvil para que la app no tenga que bajar los 1028 Pokémon cada vez que se abre.
+*   🏷️ Filtrar la Pokédex por tipo, además de por nombre o número.
+*   ⭐ Marcar Pokémon como favoritos.
+*   🆔 Cambiar el identificador `com.example.pokedex` por uno propio.
 
 <br>
 
