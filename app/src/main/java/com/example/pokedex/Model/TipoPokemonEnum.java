@@ -2,6 +2,12 @@ package com.example.pokedex.Model;
 
 import com.example.pokedex.R;
 
+/**
+ * Los 18 tipos de Pokémon con su icono y su color de fondo.
+ *
+ * <p>Relaciona el nombre en inglés que devuelve la PokéAPI con los recursos de
+ * la app, para pintar los iconos de tipo y el fondo de la ficha.</p>
+ */
 public enum TipoPokemonEnum {
     NORMAL("normal", R.mipmap.normal, R.color.normalColor),
     FIRE("fire", R.mipmap.fuego, R.color.fuegoColor),
@@ -26,16 +32,36 @@ public enum TipoPokemonEnum {
     private final int imagenResId;
     private final int colorResId;
 
+    /**
+     * @param nombre      nombre del tipo en la PokéAPI
+     * @param imagenResId recurso del icono del tipo
+     * @param colorResId  recurso del color de fondo
+     */
     TipoPokemonEnum(String nombre, int imagenResId, int colorResId) {
         this.nombre = nombre;
         this.imagenResId = imagenResId;
         this.colorResId = colorResId;
     }
 
+    /**
+     * @return el nombre del tipo tal como lo da la PokéAPI
+     */
     public String getNombre() { return nombre; }
+    /**
+     * @return el id del recurso del icono
+     */
     public int getImagenResId() { return imagenResId; }
+    /**
+     * @return el id del recurso del color
+     */
     public int getColorResId() { return colorResId; }
 
+    /**
+     * Busca el tipo que corresponde a un nombre, sin distinguir mayúsculas.
+     *
+     * @param nombre nombre del tipo, por ejemplo {@code "grass"}
+     * @return el tipo encontrado, o {@code null} si no existe
+     */
     public static TipoPokemonEnum fromName(String nombre) {
         for (TipoPokemonEnum tipo : values()) {
             if (tipo.nombre.equalsIgnoreCase(nombre)) {

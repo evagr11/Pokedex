@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.example.pokedex.Controller"},{"l":"com.example.pokedex.Model"},{"l":"com.example.pokedex.View"}];updateSearchResults();

@@ -5,6 +5,7 @@
 <div align="center">
   <a href="https://github.com/evagr11/Pokedex/releases/latest" target="_blank"><img src="https://img.shields.io/badge/Descargar_APK-DC2626?style=for-the-badge&logo=android&logoColor=white" alt="Descargar APK"/></a>
   <a href="https://github.com/evagr11/Pokedex" target="_blank"><img src="https://img.shields.io/badge/Ver_Código-7F1D1D?style=for-the-badge&logo=github&logoColor=white" alt="Ver Código"/></a>
+  <a href="https://evagr11.github.io/Pokedex/javadoc/" target="_blank"><img src="https://img.shields.io/badge/Javadoc-7F1D1D?style=for-the-badge&logo=openjdk&logoColor=white" alt="Javadoc"></a>
   <a href="https://evagr11.github.io/Curriculum/proyectos/pokedex.html" target="_blank"><img src="https://img.shields.io/badge/Ver_Web-DC2626?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Ver Web"/></a>
   <a href="https://www.figma.com/design/og2JV2mn6bbvUCpM8qFwct/Pokedex" target="_blank"><img src="https://img.shields.io/badge/Figma-7F1D1D?style=for-the-badge&logo=figma&logoColor=white" alt="Figma"/></a>
   <a href="https://evagr11.github.io/Curriculum/assets/pdf/Pokedex.pdf" target="_blank"><img src="https://img.shields.io/badge/Documentación-DC2626?style=for-the-badge&logo=latex&logoColor=white" alt="Documentación"/></a>
@@ -88,6 +89,8 @@ Pokedex/app/src/main/java/com/example/pokedex/
     ├── GeneralPokedex.java   # Vista principal con el listado y búsqueda.
     ├── InfoPokemon.java      # Pantalla de detalle del Pokémon.
     └── PokemonAdapter.java   # Adaptador para el RecyclerView.
+
+Pokedex/docs/javadoc/       # Javadoc generado (publicado en GitHub Pages)
 ```
 
 # 🚀 Cómo Utilizar el Proyecto

@@ -17,12 +17,23 @@ import com.example.pokedex.R;
 import java.util.Collections;
 import java.util.Comparator;
 
+/**
+ * Pantalla de inicio: descarga los Pokémon mientras muestra una barra de carga.
+ *
+ * <p>Cuando termina la descarga, ordena la lista por número y enseña el botón
+ * para entrar a la Pokédex.</p>
+ */
 public class LandingActivity extends AppCompatActivity {
 
     private boolean datosCargados = false;
     private ProgressBar progressBar;
     private Button btnAcceder;
 
+    /**
+     * Lanza la descarga y prepara el botón de acceso.
+     *
+     * @param savedInstanceState estado guardado de la Activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +64,9 @@ public class LandingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Abre la Pokédex si los datos ya están cargados; si no, vuelve a comprobarlo cada medio segundo.
+     */
     private void esperarCargaYEntrar() {
         if (datosCargados) {
             startActivity(new Intent(this, GeneralPokedex.class));

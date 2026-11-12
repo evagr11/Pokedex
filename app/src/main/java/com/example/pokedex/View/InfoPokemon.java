@@ -14,8 +14,19 @@ import com.bumptech.glide.Glide;
 import com.example.pokedex.Model.TipoPokemonEnum;
 import com.example.pokedex.R;
 
+/**
+ * Ficha de un Pokémon: imagen, nombre, peso, altura, descripción y tipos.
+ *
+ * <p>Recibe los datos por el {@code Intent} y usa {@link com.example.pokedex.Model.TipoPokemonEnum}
+ * para pintar los iconos de tipo y el color de fondo.</p>
+ */
 public class InfoPokemon extends AppCompatActivity {
 
+    /**
+     * Rellena la ficha con los datos del Intent y prepara el botón de volver.
+     *
+     * @param savedInstanceState estado guardado de la Activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

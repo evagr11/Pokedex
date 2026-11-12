@@ -14,11 +14,31 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Descarga los Pokémon de la PokéAPI con Volley y los guarda en memoria.
+ *
+ * <p>Primero pide la lista de URLs y después la ficha y la especie de cada
+ * Pokémon. Cuando han terminado todas las peticiones, avisa con un
+ * {@link Runnable}.</p>
+ */
 public class API {
 
+    /**
+     * Pokémon descargados hasta el momento.
+     */
     static ArrayList<Pokemon> myPokedex = new ArrayList<>();
+    /**
+     * URLs de la ficha de cada Pokémon, sacadas del listado de la API.
+     */
     private static String[] fullURLList = new String[1028];
 
+    /**
+     * Pide el listado de los 1028 primeros Pokémon y, con sus URLs,
+     * lanza {@link #gatherAllPokemonInfo(Context, Runnable)}.
+     *
+     * @param ct         contexto para crear la cola de Volley
+     * @param onComplete se ejecuta cuando se han procesado todos los Pokémon
+     */
     public static void obtainAllPokemon(Context ct, Runnable onComplete) {
         RequestQueue queue = Volley.newRequestQueue(ct);
         String url = "https://pokeapi.co/api/v2/pokemon?limit=1028&offset=0";
@@ -40,6 +60,16 @@ public class API {
         queue.add(stringRequest);
     }
 
+    /**
+     * Descarga la ficha de cada Pokémon (nombre, número, imagen, peso, altura
+     * y tipos) y su descripción en español desde {@code pokemon-species}.
+     *
+     * <p>Cuenta las respuestas, también las fallidas, para llamar a
+     * {@code onComplete} una sola vez al terminar.</p>
+     *
+     * @param ct         contexto para crear la cola de Volley
+     * @param onComplete se ejecuta cuando han terminado todas las peticiones
+     */
     public static void gatherAllPokemonInfo(Context ct, Runnable onComplete) {
         myPokedex.clear();
         RequestQueue queue = Volley.newRequestQueue(ct);
@@ -124,6 +154,9 @@ public class API {
         queue.start();
     }
 
+    /**
+     * @return la lista de Pokémon descargados
+     */
     public static ArrayList<Pokemon> getMyPokedex() {
         return myPokedex;
     }

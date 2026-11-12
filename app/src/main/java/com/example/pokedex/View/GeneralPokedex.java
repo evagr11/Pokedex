@@ -14,6 +14,12 @@ import com.example.pokedex.R;
 
 import java.util.ArrayList;
 
+/**
+ * Pantalla con la cuadrícula de Pokémon y el buscador.
+ *
+ * <p>Muestra los Pokémon en un {@code RecyclerView} de 3 columnas, cargándolos
+ * de 50 en 50 al hacer scroll, y filtra por nombre o número mientras se escribe.</p>
+ */
 public class GeneralPokedex extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -27,6 +33,11 @@ public class GeneralPokedex extends AppCompatActivity {
     private final int batchSize = 50;
     private boolean isLoading = false;
 
+    /**
+     * Prepara la cuadrícula, carga el primer bloque y conecta el scroll y el buscador.
+     *
+     * @param savedInstanceState estado guardado de la Activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +83,9 @@ public class GeneralPokedex extends AppCompatActivity {
         });
     }
 
+    /**
+     * Al volver a la pantalla, recarga la lista o vuelve a aplicar la búsqueda escrita.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -89,6 +103,11 @@ public class GeneralPokedex extends AppCompatActivity {
         }
     }
 
+    /**
+     * Deja en la lista solo los Pokémon cuyo nombre o número contiene el texto.
+     *
+     * @param query texto escrito en el buscador
+     */
     private void filterPokemon(String query) {
         filteredList.clear();
         currentBatch = 0;
@@ -104,6 +123,9 @@ public class GeneralPokedex extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * Añade a la cuadrícula el siguiente bloque de 50 Pokémon.
+     */
     private void loadBatch() {
         if (pokedex == null || pokedex.isEmpty()) return;
 

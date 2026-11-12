@@ -16,22 +16,42 @@ import com.example.pokedex.R;
 
 import java.util.ArrayList;
 
+/**
+ * Adaptador del {@code RecyclerView} que pinta cada Pokémon con su número, nombre e imagen.
+ */
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
 
     private final ArrayList<Pokemon> pokemons;
     private final Context context;
 
+    /**
+     * @param pokemons lista que se muestra
+     * @param context  contexto para inflar las vistas y abrir la ficha
+     */
     public PokemonAdapter(ArrayList<Pokemon> pokemons, Context context) {
         this.pokemons = pokemons;
         this.context = context;
     }
 
+    /**
+     * Infla la tarjeta {@code item_pokemon}.
+     *
+     * @param parent   grupo de vistas padre
+     * @param viewType tipo de vista (solo hay uno)
+     * @return el ViewHolder creado
+     */
     @Override
     public PokemonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_pokemon, parent, false);
         return new PokemonViewHolder(view);
     }
 
+    /**
+     * Rellena la tarjeta y, al pulsarla, abre {@link InfoPokemon} con sus datos.
+     *
+     * @param holder   tarjeta que se rellena
+     * @param position posición en la lista
+     */
     @Override
     public void onBindViewHolder(PokemonViewHolder holder, int position) {
         Pokemon p = pokemons.get(position);
@@ -57,16 +77,25 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         });
     }
 
+    /**
+     * @return el número de Pokémon de la lista
+     */
     @Override
     public int getItemCount() {
         return pokemons.size();
     }
 
+    /**
+     * Referencias a las vistas de una tarjeta.
+     */
     public static class PokemonViewHolder extends RecyclerView.ViewHolder {
         ImageView pokemonImage;
         TextView pokemonNumber;
         TextView pokemonName;
 
+        /**
+         * @param itemView vista de la tarjeta
+         */
         public PokemonViewHolder(View itemView) {
             super(itemView);
             pokemonImage = itemView.findViewById(R.id.pokemonImage);
